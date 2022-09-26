@@ -8,6 +8,8 @@ import os
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import pyautogui
+import keyword
 
 engine = pyttsx3.init('sapi5') # To take voice input
 voices = engine.getProperty('voices')
@@ -73,7 +75,23 @@ if __name__ == "__main__":
 
 
                 # <----- YouTube Controls ----->
-                
+                elif "pause" in query:
+                    pyautogui.press("k")
+                    speak("Video Paused")
+                elif "play" in query:
+                    pyautogui.press("k")
+                    speak("Video Played")
+                elif "mute" in query:
+                    pyautogui.press("m")
+                    speak("Video Muted")
+                elif "volume up" in query:
+                    from Keyboard import volumeup
+                    speak("Turning Volume up")
+                    volumeup()
+                elif "volume down" in query:
+                    from Keyboard import volumedown
+                    speak("Turning Volume down")
+                    volumedown()
 
 
                 # <----- OPENING AND CLOSING APPS ----->
@@ -92,6 +110,18 @@ if __name__ == "__main__":
                     a = input("Time :- ")
                     alarm(a)
                     speak(f"Alarm set for {a}")
+
+                # <----- Reminder ----->
+                elif "remember that" in query:
+                    rememberMessage = query.replace("remember that","")
+                    rememberMessage = query.replace("jarvis","")
+                    speak("You told me to remember that"+rememberMessage)
+                    remember = open("Remember.txt","a")
+                    remember.write(rememberMessage)
+                    remember.close()
+                elif "what do you remember" in query:
+                    remember = open("Remember.txt","r")
+                    speak("You told me"+remember.read())
 
 
                 # <----- SEARCHING WEB ----->
